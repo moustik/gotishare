@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">GotiShare</string>
+    <string name="home_message">Gotify configuration</string>
+    <string name="home_button">Save</string>
+    <string name="URI_label_text">URI</string>
+    <string name="URI_default">http://192.168.1.88:8000</string>
+    <string name="token_label_text">Token</string>
+    <string name="token_default">ABoK46dkSFyCnQN</string>
+</resources>
