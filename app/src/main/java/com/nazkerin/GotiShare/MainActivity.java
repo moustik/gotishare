@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         EditText token_value = findViewById(R.id.token_value);
         SharedPreferences settings = getSharedPreferences("UserConfig", MODE_PRIVATE);
         URI_value.setText(settings.getString("URI", URI_value.getText().toString()));
-        token_value.setText(settings.getString("app_name", app_name_value.getText().toString()));
+        app_name_value.setText(settings.getString("app_name", app_name_value.getText().toString()));
         token_value.setText(settings.getString("token", token_value.getText().toString()));
     }
 

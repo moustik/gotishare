@@ -4,7 +4,7 @@
     <string name="home_button">Save</string>
     <string name="get_token_button">Get token</string>
     <string name="URI_label_text">URI</string>
-    <string name="URI_default">http://192.168.1.88:8000</string>
+    <string name="URI_default">http://192.168.1.88:80</string>
     <string name="app_name_label_text">App</string>
     <string name="app_name_default">gotishare</string>
     <string name="token_label_text">Token</string>

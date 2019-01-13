@@ -131,11 +131,11 @@ public class LoginActivity extends AppCompatActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(login, password);
 
             SharedPreferences settings = getSharedPreferences("UserConfig", MODE_PRIVATE);
+            mAuthTask = new UserLoginTask(
+                    settings.getString("URI", ""), login, password);
             mAuthTask.execute(
-                    settings.getString("URI", ""),
                     settings.getString("app_name", "gotishare")
             );
         }
@@ -183,9 +183,10 @@ public class LoginActivity extends AppCompatActivity {
 
         private final String mLogin;
         private final String mPassword;
-        private String mURI;
+        private final String mURI;
 
-        UserLoginTask(String login, String password) {
+        UserLoginTask(String URI, String login, String password) {
+            mURI = URI;
             mLogin = login;
             mPassword = password;
         }
@@ -194,13 +195,11 @@ public class LoginActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             StringBuilder response = new StringBuilder();
 
-            String URI = params[0];
-            mURI = URI;
-            String app_name = params[1];
-            Log.e("HELLO APP", "URI " + URI);
+            String app_name = params[0];
+            Log.e("HELLO APP", "URI " + mURI);
 
             try {
-                URL url = new URL(URI + "/application");
+                URL url = new URL(mURI + "/application");
                 Log.e("HELLO APP", url.toString());
 
                 String userPassword = mLogin + ":" + mPassword;
@@ -210,7 +209,6 @@ public class LoginActivity extends AppCompatActivity {
                 httpURLConnection.setRequestProperty("Authorization", "Basic " + encoding);
                 httpURLConnection.setRequestMethod("GET"); // here you are telling that it is a POST request, which can be changed into "PUT", "GET", "DELETE" etc.
                 httpURLConnection.connect();
-
 
                 int responseCode=httpURLConnection.getResponseCode();
                 Log.e("HELLO APP", Integer.toString(responseCode));
