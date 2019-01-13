@@ -72,8 +72,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        Button mEmailSignInButton = findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        Button mLoginSignInButton = findViewById(R.id.email_sign_in_button);
+        mLoginSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
@@ -132,7 +132,12 @@ public class LoginActivity extends AppCompatActivity {
             // perform the user login attempt.
             showProgress(true);
             mAuthTask = new UserLoginTask(login, password);
-            mAuthTask.execute("http://192.168.1.88:8000");
+
+            SharedPreferences settings = getSharedPreferences("UserConfig", MODE_PRIVATE);
+            mAuthTask.execute(
+                    settings.getString("URI", ""),
+                    settings.getString("app_name", "gotishare")
+            );
         }
     }
 
@@ -178,6 +183,7 @@ public class LoginActivity extends AppCompatActivity {
 
         private final String mLogin;
         private final String mPassword;
+        private String mURI;
 
         UserLoginTask(String login, String password) {
             mLogin = login;
@@ -189,6 +195,9 @@ public class LoginActivity extends AppCompatActivity {
             StringBuilder response = new StringBuilder();
 
             String URI = params[0];
+            mURI = URI;
+            String app_name = params[1];
+            Log.e("HELLO APP", "URI " + URI);
 
             try {
                 URL url = new URL(URI + "/application");
@@ -235,28 +244,68 @@ public class LoginActivity extends AppCompatActivity {
             mAuthTask = null;
             showProgress(false);
             String token;
-            String app_name;
+
+            SharedPreferences settings = getSharedPreferences("UserConfig", MODE_PRIVATE);
+            String app_name_from_settings = settings.getString("app_name", "");
 
             try {
                 Object json = new JSONTokener(response).nextValue();
                 if (json instanceof JSONArray) {
+                    int i;
+                    token = "-1";
                     JSONArray jsonArray = (JSONArray) json;
-                    JSONObject e = jsonArray.getJSONObject(0);
+                    for (i = 0; i < jsonArray.length(); i++) {
+                        JSONObject row = jsonArray.getJSONObject(i);
 
-                    token = e.getString("token");
-                    app_name = e.getString("name");
+                        String app_name;
+                        app_name = row.getString("name");
+                        if(app_name.equals(app_name_from_settings)) {
+                            // gotcha
+                            token = row.getString("token");
+                            break;
+                        }
+
+                    }
                     Log.e("HELLO APP", token);
 
-                    Toast.makeText(getApplicationContext(),
-                            "token found for app " + app_name, Toast.LENGTH_SHORT).show();
+                    if(i != jsonArray.length()) {
+                        Toast.makeText(getApplicationContext(),
+                                "token found for app " + app_name_from_settings, Toast.LENGTH_SHORT).show();
 
-                    SharedPreferences settings = getSharedPreferences("UserConfig", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putString("token", token);
-                    editor.putString("app_name", app_name);
-                    editor.commit();
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString("token", token);
+                        editor.commit();
 
-                    finish();
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(),
+                                "No token found for app " + app_name_from_settings, Toast.LENGTH_SHORT).show();
+                        new createApplication() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.e("HELLO APP", response);
+                                super.onResponse(response);
+                                try {
+                                    JSONObject e = new JSONObject(response);
+                                    String token = e.getString("token");
+
+                                    SharedPreferences settings = getSharedPreferences("UserConfig", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = settings.edit();
+                                    editor.putString("token", token);
+                                    editor.commit();
+
+                                    finish();
+
+                                    Toast.makeText(getApplicationContext(),
+                                            "created one" + token, Toast.LENGTH_SHORT).show();
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.execute(app_name_from_settings,
+                                mURI, mLogin, mPassword);
+                    }
                 }
                 else if (json instanceof JSONObject)
                 {   // might be an error

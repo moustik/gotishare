@@ -5,19 +5,18 @@
     <string name="get_token_button">Get token</string>
     <string name="URI_label_text">URI</string>
     <string name="URI_default">http://192.168.1.88:8000</string>
+    <string name="app_name_label_text">App</string>
+    <string name="app_name_default">gotishare</string>
     <string name="token_label_text">Token</string>
     <string name="token_default">app token</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_login">Fetch token</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="action_sign_in">Retrieve token</string>
+    <string name="action_sign_in_short">Fetch !</string>
+    <string name="error_invalid_email">This login is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
 </resources>

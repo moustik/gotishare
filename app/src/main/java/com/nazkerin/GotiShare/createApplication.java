@@ -1,6 +1,7 @@
 package com.nazkerin.GotiShare;
 
 import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -16,32 +17,37 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class postMessage extends AsyncTask<String, String, String> {
+public class createApplication extends AsyncTask<String, String, String> {
     private final String TAG = "HELLO APP";
+    private final String SCHEME = "/application";
 
     @Override
     protected String doInBackground(String... params) {
-        String response = "";
+        StringBuilder response = new StringBuilder();
 
         String content = params[0];
         Log.e(TAG, content);
         String URI = params[1];
-        String token = params[2];
+        String login = params[2];
+        String password = params[3];
 
         try {
-            URL url = new URL(URI + "/message?token=" + token);
+            URL url = new URL(URI + SCHEME);
             Log.e(TAG, url.toString());
-            //url = new URL("http://192.168.1.88:8000/version"); //Enter URL here
-            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+
+            String userPassword = login + ":" + password;
+            String encoding = Base64.encodeToString(userPassword.getBytes(), Base64.NO_WRAP);
+
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setRequestProperty("Authorization", "Basic " + encoding);
             httpURLConnection.setDoOutput(true);
             httpURLConnection.setRequestMethod("POST"); // here you are telling that it is a POST request, which can be changed into "PUT", "GET", "DELETE" etc.
             httpURLConnection.setRequestProperty("Content-Type", "application/json"); // here you are setting the `Content-Type` for the data you are sending which is `application/json`
             httpURLConnection.connect();
 
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("message", content);
-            jsonObject.put("title", "title");
-            jsonObject.put("priority", 2);
+            jsonObject.put("name", content);
+            jsonObject.put("description", content + "app for GotiShare");
 
             DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
             Log.e(TAG, jsonObject.toString());
@@ -61,8 +67,10 @@ public class postMessage extends AsyncTask<String, String, String> {
 
             String line;
             while ((line=br.readLine()) != null) {
-                response+=line;
+                response.append(line);
             }
+
+            Log.e("HELLO APP", response.toString());
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -72,7 +80,7 @@ public class postMessage extends AsyncTask<String, String, String> {
             e.printStackTrace();
         }
 
-        return response;
+        return response.toString();
     }
 
     @Override

@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/home_message"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -28,7 +29,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintVertical_bias="0.75" />
 
     <Button
         android:id="@+id/get_token"
@@ -41,20 +43,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintVertical_bias="0.65999997" />
+        app:layout_constraintVertical_bias="0.35000002" />
 
     <EditText
         android:id="@+id/URI_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:ems="10"
-        android:inputType="text|textUri"
+        android:inputType="textUri"
         android:text="@string/URI_default"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/get_token"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintVertical_bias="0.23000002" />
+        app:layout_constraintVertical_bias="0.32999998" />
 
     <TextView
         android:id="@+id/URI_label"
@@ -68,6 +72,31 @@
         app:layout_constraintTop_toTopOf="@+id/URI_value" />
 
     <EditText
+        android:id="@+id/app_name_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:inputType="textUri"
+        android:text="@string/app_name_default"
+        app:layout_constraintBottom_toTopOf="@+id/get_token"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintVertical_bias="0.94" />
+
+    <TextView
+        android:id="@+id/app_name_label"
+        android:layout_width="58dp"
+        android:layout_height="19dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/app_name_label_text"
+        app:layout_constraintBottom_toBottomOf="@+id/app_name_value"
+        app:layout_constraintEnd_toStartOf="@+id/app_name_value"
+        app:layout_constraintTop_toTopOf="@+id/app_name_value" />
+
+    <EditText
         android:id="@+id/token_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -78,7 +107,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintVertical_bias="0.71000004" />
+        app:layout_constraintVertical_bias="0.96" />
 
     <TextView
         android:id="@+id/token_label"

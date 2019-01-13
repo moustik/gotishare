@@ -20,9 +20,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         EditText URI_value = findViewById(R.id.URI_value);
+        EditText app_name_value = findViewById(R.id.app_name_value);
         EditText token_value = findViewById(R.id.token_value);
         SharedPreferences settings = getSharedPreferences("UserConfig", MODE_PRIVATE);
         URI_value.setText(settings.getString("URI", URI_value.getText().toString()));
+        token_value.setText(settings.getString("app_name", app_name_value.getText().toString()));
         token_value.setText(settings.getString("token", token_value.getText().toString()));
     }
 
@@ -31,20 +33,6 @@ public class MainActivity extends AppCompatActivity {
         Log.e("HELLO APP", "button clicked  !!!!!!!!!!!!!!!!!!");
 
         saveSettings();
-
-        SharedPreferences settings = getSharedPreferences("UserConfig", MODE_PRIVATE);
-
-/*        new postMessage() {
-            @Override
-            public void onResponse(String response) {
-                super.onResponse(response);
-                onRaysponse(response);
-            }
-        }.execute(
-                "test",
-                settings.getString("URI", ""),
-                settings.getString("token", "0")
-        );*/
 
         Toast.makeText(getApplicationContext(), "saved", Toast.LENGTH_SHORT).show();
     }
@@ -58,18 +46,29 @@ public class MainActivity extends AppCompatActivity {
     public void saveSettings() {
 
         EditText URI_value = findViewById(R.id.URI_value);
+        EditText app_name_value = findViewById(R.id.app_name_value);
         EditText token_value = findViewById(R.id.token_value);
+
         SharedPreferences settings = getSharedPreferences("UserConfig", MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("URI", URI_value.getText().toString());
+        editor.putString("app_name", app_name_value.getText().toString());
         editor.putString("token", token_value.getText().toString());
         editor.apply();
     }
 
     public void onGetToken(View view) {
+        // save URI
+        EditText URI_value = findViewById(R.id.URI_value);
+        EditText app_name_value = findViewById(R.id.app_name_value);
+        SharedPreferences settings = getSharedPreferences("UserConfig", MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("URI", URI_value.getText().toString());
+        editor.putString("app_name", app_name_value.getText().toString());
+        editor.commit();
+
         Intent intent = new Intent(this, LoginActivity.class);
         startActivityForResult(intent, 5);
-
     }
 
     @Override
