@@ -17,7 +17,7 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class httpRequest extends AsyncTask<String, String, String> {
+public class postMessage extends AsyncTask<String, String, String> {
     private final String TAG = "HELLO APP";
 
     @Override

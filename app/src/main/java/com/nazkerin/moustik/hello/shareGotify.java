@@ -22,7 +22,7 @@ public class shareGotify extends AppCompatActivity {
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-            new httpRequest() {
+            new postMessage() {
                 @Override
                 public void onResponse(String response) {
                     super.onResponse(response);
