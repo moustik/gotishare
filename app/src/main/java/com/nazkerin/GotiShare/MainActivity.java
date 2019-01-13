@@ -1,4 +1,4 @@
-package com.nazkerin.moustik.hello;
+package com.nazkerin.GotiShare;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

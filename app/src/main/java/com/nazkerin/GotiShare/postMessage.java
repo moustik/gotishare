@@ -1,6 +1,5 @@
-package com.nazkerin.moustik.hello;
+package com.nazkerin.GotiShare;
 
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
